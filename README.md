@@ -2,13 +2,7 @@
 
 Eine digitale Helfer-Anwendung für das Tischfußball-Spiel TippKick.
 
-## 🎯 TippKick Regeln
-
-TippKick ist ein Tischfußball-Spiel, bei dem:
-- Der Ball durch Antippen der Stangen bewegt wird
-- Das Spiel in zwei Halbzeiten gespielt wird
-- Jeder Spieler eine Mannschaft steuert
-- Ein Tor gültig ist, wenn der Ball ins gegnerische Tor rollt
+**[🔗 Tipp-Kick-Helfer](https://fpetruschke.github.io/tipp-kick-helfer)**
 
 ## 📝 Lizenz
 
