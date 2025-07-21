@@ -395,14 +395,96 @@ const SpielKomponente = {
             </div>
 
             <!-- Elfmeterschießen-Modal -->
-            <div class="modal fade" id="elfmeterschiessenModal" tabindex="-1">
+            <div class="modal fade" id="elfmeterschiessenModal" tabindex="-1" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Elfmeterschießen</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <div class="modal-body">
+                            <!-- Aktueller Schütze - wird deutlich hervorgehoben -->
+                            <div class="text-center mb-4">
+                                <div v-if="elfmeterAktuellerSchuetze === 'team1'" class="current-shooter team1-active">
+                                    <div class="card border-primary">
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <img
+                                                    :src="aktuellesSpiel ? (aktuellesSpiel.team1.mannschaftFlagge || 'assets/img/logos/default.png') : 'assets/img/logos/default.png'"
+                                                    :alt="aktuellesSpiel ? aktuellesSpiel.team1.mannschaft : ''"
+                                                    class="img-fluid mb-2"
+                                                    style="max-height: 60px; max-width: 70px;"
+                                                    @error="handleImageError"
+                                                >
+                                                <h4 class="text-primary">{{ aktuellesSpiel ? aktuellesSpiel.team1.name : 'Team 1' }}</h4>
+                                                <small class="text-muted">{{ aktuellesSpiel ? aktuellesSpiel.team1.mannschaft : '' }}</small>
+                                            </div>
+                                            <div class="mb-2">
+                                                <span
+                                                    class="badge"
+                                                    :class="getBallColorClass('team1')"
+                                                    :style="getBallColorStyle('team1')"
+                                                >
+                                                    {{ getBallColorText('team1') }}
+                                                </span>
+                                            </div>
+                                            <h5 class="text-primary">IST DRAN!</h5>
+                                            <p class="text-muted">Gib das Ergebnis deines Schusses ein:</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else-if="elfmeterAktuellerSchuetze === 'team2'" class="current-shooter team2-active">
+                                    <div class="card border-primary">
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <img
+                                                    :src="aktuellesSpiel ? (aktuellesSpiel.team2.mannschaftFlagge || 'assets/img/logos/default.png') : 'assets/img/logos/default.png'"
+                                                    :alt="aktuellesSpiel ? aktuellesSpiel.team2.mannschaft : ''"
+                                                    class="img-fluid mb-2"
+                                                    style="max-height: 60px; max-width: 70px;"
+                                                    @error="handleImageError"
+                                                >
+                                                <h4 class="text-primary">{{ aktuellesSpiel ? aktuellesSpiel.team2.name : 'Team 2' }}</h4>
+                                                <small class="text-muted">{{ aktuellesSpiel ? aktuellesSpiel.team2.mannschaft : '' }}</small>
+                                            </div>
+                                            <div class="mb-2">
+                                                <span
+                                                    class="badge"
+                                                    :class="getBallColorClass('team2')"
+                                                    :style="getBallColorStyle('team2')"
+                                                >
+                                                    {{ getBallColorText('team2') }}
+                                                </span>
+                                            </div>
+                                            <h5 class="text-primary">IST DRAN!</h5>
+                                            <p class="text-muted">Gib das Ergebnis deines Schusses ein:</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Schuss-Ergebnis Buttons -->
+                            <div class="row mb-4">
+                                <div class="col-6">
+                                    <button
+                                        class="btn btn-success btn-lg w-100"
+                                        @click="elfmeterSchussErgebnis(true)"
+                                    >
+                                        <span class="material-symbols-outlined me-2">sports_soccer</span>
+                                        Tor getroffen!
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button
+                                        class="btn btn-danger btn-lg w-100"
+                                        @click="elfmeterSchussErgebnis(false)"
+                                    >
+                                        <span class="material-symbols-outlined me-2">block</span>
+                                        Ball gehalten
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Stand -->
                             <div class="row">
                                 <div class="col-6">
                                     <div class="team-display text-center">
@@ -411,20 +493,11 @@ const SpielKomponente = {
                                                 :src="aktuellesSpiel ? (aktuellesSpiel.team1.mannschaftFlagge || 'assets/img/logos/default.png') : 'assets/img/logos/default.png'"
                                                 :alt="aktuellesSpiel ? aktuellesSpiel.team1.mannschaft : ''"
                                                 class="img-fluid mb-2"
-                                                style="max-height: 50px; max-width: 60px;"
+                                                style="max-height: 40px; max-width: 50px;"
                                                 @error="handleImageError"
                                             >
-                                            <h6>{{ aktuellesSpiel ? aktuellesSpiel.team1.name : '' }}</h6>
+                                            <h6>{{ aktuellesSpiel ? aktuellesSpiel.team1.name : 'Team 1' }}</h6>
                                             <small class="text-muted">{{ aktuellesSpiel ? aktuellesSpiel.team1.mannschaft : '' }}</small>
-                                        </div>
-                                        <div class="mb-2">
-                                            <span
-                                                class="badge"
-                                                :class="getBallColorClass('team1')"
-                                                :style="getBallColorStyle('team1')"
-                                            >
-                                                {{ getBallColorText('team1') }}
-                                            </span>
                                         </div>
                                         <div class="text-tipp-kick">
                                             <strong>Elfmeter: {{ elfmeterTore.team1 }}/{{ elfmeterSchuesse.team1 }}</strong>
@@ -438,20 +511,11 @@ const SpielKomponente = {
                                                 :src="aktuellesSpiel ? (aktuellesSpiel.team2.mannschaftFlagge || 'assets/img/logos/default.png') : 'assets/img/logos/default.png'"
                                                 :alt="aktuellesSpiel ? aktuellesSpiel.team2.mannschaft : ''"
                                                 class="img-fluid mb-2"
-                                                style="max-height: 50px; max-width: 60px;"
+                                                style="max-height: 40px; max-width: 50px;"
                                                 @error="handleImageError"
                                             >
-                                            <h6>{{ aktuellesSpiel ? aktuellesSpiel.team2.name : '' }}</h6>
+                                            <h6>{{ aktuellesSpiel ? aktuellesSpiel.team2.name : 'Team 2' }}</h6>
                                             <small class="text-muted">{{ aktuellesSpiel ? aktuellesSpiel.team2.mannschaft : '' }}</small>
-                                        </div>
-                                        <div class="mb-2">
-                                            <span
-                                                class="badge"
-                                                :class="getBallColorClass('team2')"
-                                                :style="getBallColorStyle('team2')"
-                                            >
-                                                {{ getBallColorText('team2') }}
-                                            </span>
                                         </div>
                                         <div class="text-tipp-kick">
                                             <strong>Elfmeter: {{ elfmeterTore.team2 }}/{{ elfmeterSchuesse.team2 }}</strong>
@@ -459,38 +523,16 @@ const SpielKomponente = {
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- Phase Info -->
                             <div class="mt-4 text-center">
                                 <div v-if="elfmeterPhase === 'regulaer'">
                                     <h6>Reguläres Elfmeterschießen (5 Schüsse pro Team)</h6>
                                     <p class="text-muted">Schuss {{ Math.min(elfmeterSchuesse.team1, elfmeterSchuesse.team2) + 1 }} von 5</p>
                                 </div>
                                 <div v-else-if="elfmeterPhase === 'sudden-death'">
-                                    <h6>Sudden Death</h6>
+                                    <h6 class="text-danger">Sudden Death</h6>
                                     <p class="text-muted">Nächster Schuss entscheidet!</p>
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button
-                                            class="btn btn-tipp-kick btn-lg w-100"
-                                            @click="elfmeterSchuss('team1')"
-                                            :disabled="elfmeterAktuellerSchuetze !== 'team1'"
-                                        >
-                                            <span class="material-symbols-outlined me-2">sports_soccer</span>
-                                            {{ aktuellesSpiel ? aktuellesSpiel.team1.name : 'Team 1' }} schießt
-                                        </button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button
-                                            class="btn btn-tipp-kick btn-lg w-100"
-                                            @click="elfmeterSchuss('team2')"
-                                            :disabled="elfmeterAktuellerSchuetze !== 'team2'"
-                                        >
-                                            <span class="material-symbols-outlined me-2">sports_soccer</span>
-                                            {{ aktuellesSpiel ? aktuellesSpiel.team2.name : 'Team 2' }} schießt
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -980,11 +1022,12 @@ const SpielKomponente = {
                 }
             });
         },
-        elfmeterSchuss(team) {
-            // Simuliere Elfmeter-Ergebnis (70% Trefferwahrscheinlichkeit)
-            const getroffen = Math.random() < 0.7;
+        elfmeterSchussErgebnis(istTor) {
+            const team = this.elfmeterAktuellerSchuetze;
+            const spieler = this.aktuellesSpiel[team].name;
+            const zeitString = this.formatierteZeit(Math.floor((Date.now() - this.spielStartZeit) / 1000));
 
-            if (getroffen) {
+            if (istTor) {
                 this.elfmeterTore[team]++;
                 SoundManager.play('torjubel');
             }
