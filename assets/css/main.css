@@ -1,0 +1,143 @@
+:root {
+    --tipp-kick-green: #2E7D32;
+    --tipp-kick-light-green: #4CAF50;
+    --tipp-kick-dark-green: #1B5E20;
+}
+
+body {
+    background-color: #eee;
+}
+
+.bg-tipp-kick {
+    background-color: var(--tipp-kick-green) !important;
+}
+
+.text-tipp-kick {
+    color: var(--tipp-kick-green) !important;
+}
+
+.btn-tipp-kick {
+    background-color: var(--tipp-kick-green);
+    border-color: var(--tipp-kick-green);
+    color: white;
+}
+
+.btn-tipp-kick:hover {
+    background-color: var(--tipp-kick-dark-green);
+    border-color: var(--tipp-kick-dark-green);
+    color: white;
+}
+
+.btn-outline-tipp-kick {
+    color: var(--tipp-kick-green);
+    border-color: var(--tipp-kick-green);
+    background-color: transparent;
+}
+
+.btn-outline-tipp-kick:hover {
+    color: white;
+    background-color: var(--tipp-kick-green);
+    border-color: var(--tipp-kick-green);
+}
+
+/* Icon-Alignment-Fixes */
+.material-symbols-outlined {
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.btn .material-symbols-outlined {
+    vertical-align: middle;
+    margin-top: -2px;
+}
+
+.navbar-brand .material-symbols-outlined {
+    vertical-align: middle;
+    margin-top: -1px;
+}
+
+.nav-link .material-symbols-outlined {
+    vertical-align: middle;
+    margin-top: -1px;
+}
+
+/* Card-Title Icon Alignment */
+.card-title .material-symbols-outlined {
+    vertical-align: text-bottom;
+    margin-bottom: 2px;
+}
+
+.card-game {
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-game:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Spezielle Styling für Spiel-Karten */
+.card-game-spiel {
+    background-color: var(--tipp-kick-green);
+    color: white;
+    border: 2px solid var(--tipp-kick-green);
+    transition: all 0.3s ease;
+}
+
+.card-game-spiel:hover {
+    background-color: white;
+    color: var(--tipp-kick-green);
+    border-color: var(--tipp-kick-green);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-game-spiel .card-title,
+.card-game-spiel .card-text {
+    color: inherit;
+}
+
+.game-timer {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--tipp-kick-green);
+}
+
+.team-display {
+    border: 2px solid var(--tipp-kick-green);
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.ball-color-black {
+    background-color: #000;
+    color: white;
+}
+
+.ball-color-white {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+}
+
+@media (orientation: landscape) {
+    .landscape-only {
+        display: block !important;
+    }
+
+    .portrait-only {
+        display: block !important;
+    }
+}
+
+@media (orientation: portrait) {
+    .landscape-only {
+        display: none !important;
+    }
+
+    .portrait-only {
+        display: block !important;
+    }
+}
