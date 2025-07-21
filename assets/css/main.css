@@ -99,6 +99,40 @@ body {
     color: inherit;
 }
 
+/* Elfmeterschießen Styles */
+.current-shooter {
+    animation: pulse 2s infinite;
+}
+
+.current-shooter .card {
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+    border: 3px solid #007bff !important;
+}
+
+.team1-active .card {
+    border-color: #007bff !important;
+}
+
+.team2-active .card {
+    border-color: #007bff !important;
+}
+
+.team2-active .card .text-primary {
+    color: #007bff !important;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .game-timer {
     font-size: 3rem;
     font-weight: bold;
