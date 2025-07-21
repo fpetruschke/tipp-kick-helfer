@@ -21,8 +21,10 @@ const RegelnKomponente = {
                         <div class="card-body">
                             <ul class="list-unstyled">
                                 <li class="mb-2">• TippKick ist ein Tischfußball-Spiel mit einem kleinen Ball</li>
+                                <li class="mb-2">• Der Ball ist ein 12-seitiger Würfel; üblicherweise mit den Farben schwar&weiß oder rot&gelb</li>
+                                <li class="mb-2">• Jeder Spieler steuert eine Mannschaft und sucht sich eine der beiden Farben aus</li>
+                                <li class="mb-2">• Die nach einem Schuss sichtbare Seite zeigt die Farbe des Spielers an, der den nächsten Schuss ausführen darf</li>
                                 <li class="mb-2">• Das Spiel wird in zwei Halbzeiten gespielt</li>
-                                <li class="mb-2">• Jeder Spieler steuert eine Mannschaft</li>
                                 <li class="mb-2">• Der Ball wird durch Antippen der Stangen bewegt</li>
                                 <li class="mb-2">• Ein Tor ist gültig, wenn der Ball ins gegnerische Tor rollt</li>
                             </ul>
@@ -41,7 +43,7 @@ const RegelnKomponente = {
                                 <li class="mb-2">• Die Halbzeitlänge kann zwischen 1-10 Minuten gewählt werden</li>
                                 <li class="mb-2">• Nach der ersten Halbzeit gibt es eine kurze Pause</li>
                                 <li class="mb-2">• Nach der zweiten Halbzeit ist das Spiel beendet</li>
-                                <li class="mb-2">• Bei Unentschieden nach regulärer Zeit endet das Spiel unentschieden</li>
+                                <li class="mb-2">• Bei Unentschieden nach regulärer Zeit kann das entweder akzeptiert oder das Spiel in Verlängerund oder Elfmeterschießen fortgesetzt werden</li>
                             </ul>
                         </div>
                     </div>
@@ -66,6 +68,19 @@ const RegelnKomponente = {
                                 <li class="mb-2">• Nur Nationalmannschaften sind erlaubt</li>
                                 <li class="mb-2">• Simuliert eine Weltmeisterschaft</li>
                                 <li class="mb-2">• Bei mehr als 2 Spielern wird ein Turnier gespielt</li>
+                            </ul>
+
+                            <h6>Elfmeterschießen</h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">• Spieler können beliebige Vereine oder Nationalmannschaften wählen</li>
+                                <li class="mb-2">• Kann auch alleine gespielt werden</li>
+                            </ul>
+
+                            <h6>Training</h6>
+                            <ul class="list-unstyled">
+                                <li class="mb-2">• Spieler können beliebige Vereine oder Nationalmannschaften wählen</li>
+                                <li class="mb-2">• Kann auch alleine gespielt werden</li>
+                                <li class="mb-2">• Schieße von der vorgegebenen Position auf das Tor</li>
                             </ul>
                         </div>
                     </div>
@@ -100,7 +115,6 @@ const RegelnKomponente = {
                                 <li class="mb-2">• Schiedsrichter-Pfeife bei Spielbeginn und Halbzeitende</li>
                                 <li class="mb-2">• Torjubel bei jedem Tor</li>
                                 <li class="mb-2">• Optionale Stadionatmosphäre als Hintergrundgeräusch</li>
-                                <li class="mb-2">• Alle Sounds können in den Einstellungen konfiguriert werden</li>
                             </ul>
                         </div>
                     </div>
@@ -125,10 +139,11 @@ const RegelnKomponente = {
                 </div>
             </div>
 
-            <div class="text-center">
-                <button class="btn btn-tipp-kick" @click="$router.push('/')">
-                    <span class="material-symbols-outlined me-2">play_arrow</span>
-                    Jetzt spielen!
+            <!-- Zurück Button -->
+            <div class="d-grid">
+                <button type="button" class="btn btn-outline-dark" @click="$router.push('/')">
+                    <span class="material-symbols-outlined me-2">arrow_back</span>
+                    Zurück
                 </button>
             </div>
         </div>

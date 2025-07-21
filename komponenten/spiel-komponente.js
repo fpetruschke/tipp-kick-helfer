@@ -17,8 +17,7 @@ const SpielKomponente = {
                                 <img
                                     :src="aktuellesSpiel.team1.mannschaftFlagge || 'assets/img/logos/default.png'"
                                     :alt="aktuellesSpiel.team1.mannschaft"
-                                    class="img-fluid mb-2"
-                                    style="max-height: 50px; max-width: 60px;"
+                                    class="flagge-logo flagge-logo-spiel mb-2"
                                     @error="handleImageError"
                                 >
                                 <h4>{{ aktuellesSpiel.team1.name }}</h4>
@@ -49,8 +48,7 @@ const SpielKomponente = {
                                 <img
                                     :src="aktuellesSpiel.team2.mannschaftFlagge || 'assets/img/logos/default.png'"
                                     :alt="aktuellesSpiel.team2.mannschaft"
-                                    class="img-fluid mb-2"
-                                    style="max-height: 50px; max-width: 60px;"
+                                    class="flagge-logo flagge-logo-spiel mb-2"
                                     @error="handleImageError"
                                 >
                                 <h4>{{ aktuellesSpiel.team2.name }}</h4>
@@ -181,8 +179,7 @@ const SpielKomponente = {
                                             <img
                                                 :src="aktuellesSpiel ? (aktuellesSpiel.team1.mannschaftFlagge || 'assets/img/logos/default.png') : 'assets/img/logos/default.png'"
                                                 :alt="aktuellesSpiel ? aktuellesSpiel.team1.mannschaft : ''"
-                                                class="img-fluid mb-2"
-                                                style="max-height: 50px; max-width: 60px;"
+                                                class="flagge-logo flagge-logo-spiel mb-2"
                                                 @error="handleImageError"
                                             >
                                             <h6>{{ aktuellesSpiel ? aktuellesSpiel.team1.name : '' }}</h6>
@@ -208,8 +205,7 @@ const SpielKomponente = {
                                             <img
                                                 :src="aktuellesSpiel ? (aktuellesSpiel.team2.mannschaftFlagge || 'assets/img/logos/default.png') : 'assets/img/logos/default.png'"
                                                 :alt="aktuellesSpiel ? aktuellesSpiel.team2.mannschaft : ''"
-                                                class="img-fluid mb-2"
-                                                style="max-height: 50px; max-width: 60px;"
+                                                class="flagge-logo flagge-logo-spiel mb-2"
                                                 @error="handleImageError"
                                             >
                                             <h6>{{ aktuellesSpiel ? aktuellesSpiel.team2.name : '' }}</h6>
@@ -259,8 +255,7 @@ const SpielKomponente = {
                                             <img
                                                 :src="aktuellesSpiel ? (aktuellesSpiel.team1.mannschaftFlagge || 'assets/img/logos/default.png') : 'assets/img/logos/default.png'"
                                                 :alt="aktuellesSpiel ? aktuellesSpiel.team1.mannschaft : ''"
-                                                class="img-fluid mb-2"
-                                                style="max-height: 50px; max-width: 60px;"
+                                                class="flagge-logo flagge-logo-spiel mb-2"
                                                 @error="handleImageError"
                                             >
                                             <h6>{{ aktuellesSpiel ? aktuellesSpiel.team1.name : '' }}</h6>
@@ -297,8 +292,7 @@ const SpielKomponente = {
                                             <img
                                                 :src="aktuellesSpiel ? (aktuellesSpiel.team2.mannschaftFlagge || 'assets/img/logos/default.png') : 'assets/img/logos/default.png'"
                                                 :alt="aktuellesSpiel ? aktuellesSpiel.team2.mannschaft : ''"
-                                                class="img-fluid mb-2"
-                                                style="max-height: 50px; max-width: 60px;"
+                                                class="flagge-logo flagge-logo-spiel mb-2"
                                                 @error="handleImageError"
                                             >
                                             <h6>{{ aktuellesSpiel ? aktuellesSpiel.team2.name : '' }}</h6>
@@ -527,8 +521,8 @@ const SpielKomponente = {
                             <!-- Phase Info -->
                             <div class="mt-4 text-center">
                                 <div v-if="elfmeterPhase === 'regulaer'">
-                                    <h6>Reguläres Elfmeterschießen (5 Schüsse pro Team)</h6>
-                                    <p class="text-muted">Schuss {{ Math.min(elfmeterSchuesse.team1, elfmeterSchuesse.team2) + 1 }} von 5</p>
+                                    <h6>Reguläres Elfmeterschießen ({{ elfmeterSchuesseProTeam }} Schüsse pro Team)</h6>
+                                    <p class="text-muted">Schuss {{ Math.min(elfmeterSchuesse.team1, elfmeterSchuesse.team2) + 1 }} von {{ elfmeterSchuesseProTeam }}</p>
                                 </div>
                                 <div v-else-if="elfmeterPhase === 'sudden-death'">
                                     <h6 class="text-danger">Sudden Death</h6>
@@ -584,7 +578,8 @@ const SpielKomponente = {
             elfmeterSchuesse: { team1: 0, team2: 0 },
             elfmeterPhase: 'regulaer', // 'regulaer' oder 'sudden-death'
             elfmeterAktuellerSchuetze: 'team1',
-            elfmeterAktiv: false
+            elfmeterAktiv: false,
+            elfmeterSchuesseProTeam: 5
         }
     },
     computed: {
@@ -1006,6 +1001,13 @@ const SpielKomponente = {
             }
         },
         elfmeterschiessenStarten() {
+            // Lade Elfmeterschießen-Einstellungen
+            const einstellungen = localStorage.getItem('spielEinstellungen');
+            if (einstellungen) {
+                const spielEinstellungen = JSON.parse(einstellungen);
+                this.elfmeterSchuesseProTeam = spielEinstellungen.elfmeterSchuesse || 5;
+            }
+
             // Initialisiere Elfmeterschießen
             this.elfmeterAktiv = true;
             this.elfmeterTore = { team1: 0, team2: 0 };
@@ -1039,8 +1041,8 @@ const SpielKomponente = {
 
             // Prüfe ob reguläres Elfmeterschießen beendet
             if (this.elfmeterPhase === 'regulaer' &&
-                this.elfmeterSchuesse.team1 >= 5 &&
-                this.elfmeterSchuesse.team2 >= 5) {
+                this.elfmeterSchuesse.team1 >= this.elfmeterSchuesseProTeam &&
+                this.elfmeterSchuesse.team2 >= this.elfmeterSchuesseProTeam) {
 
                 if (this.elfmeterTore.team1 === this.elfmeterTore.team2) {
                     // Unentschieden nach regulärem Elfmeterschießen

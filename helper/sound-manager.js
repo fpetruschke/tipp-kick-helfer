@@ -11,17 +11,17 @@ const SoundManagerHelper = {
         // Haupt-Sounds (externe URLs)
         this.sounds = {
             torjubel: new Howl({
-                src: ['assets/audio/torjubel-fallback.wav'],
-                volume: 0.5,
+                src: ['assets/audio/torjubel.wav'],
+                volume: 0.3,
                 onloaderror: () => this.handleSoundError('torjubel')
             }),
             schiedsrichterPfeife: new Howl({
-                src: ['assets/audio/schiedsrichter-pfeife-fallback.wav'],
+                src: ['assets/audio/schiedsrichter-pfeife.wav'],
                 volume: 0.7,
                 onloaderror: () => this.handleSoundError('schiedsrichterPfeife')
             }),
             stadionAtmosphaere: new Howl({
-                src: ['assets/audio/stadion-atmosphaere-fallback.wav'],
+                src: ['assets/audio/stadion-atmosphaere.mp3'],
                 volume: 0.3,
                 loop: true,
                 onloaderror: () => this.handleSoundError('stadionAtmosphaere')
@@ -31,16 +31,16 @@ const SoundManagerHelper = {
         // Fallback-Sounds (lokale WAV-Dateien)
         this.fallbacks = {
             torjubel: new Howl({
-                src: ['assets/audio/torjubel-fallback.wav'],
+                src: ['assets/audio/torjubel.wav'],
                 volume: 0.3
             }),
             schiedsrichterPfeife: new Howl({
-                src: ['assets/audio/schiedsrichter-pfeife-fallback.wav'],
-                volume: 0.5
+                src: ['assets/audio/schiedsrichter-pfeife.wav'],
+                volume: 0.7
             }),
             stadionAtmosphaere: new Howl({
-                src: ['assets/audio/stadion-atmosphaere-fallback.wav'],
-                volume: 0.2,
+                src: ['assets/audio/stadion-atmosphaere.mp3'],
+                volume: 0.3,
                 loop: true
             })
         };

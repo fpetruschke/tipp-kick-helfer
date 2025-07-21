@@ -34,6 +34,7 @@ const GlobaleStatistikKomponente = {
                                     <option value="">Alle</option>
                                     <option value="freundschaftsspiel">Freundschaftsspiel</option>
                                     <option value="wm">WM</option>
+                                    <option value="elfmeterschiessen">Elfmeterschießen</option>
                                 </select>
                             </div>
                             <div class="col-6">
@@ -67,8 +68,7 @@ const GlobaleStatistikKomponente = {
                                             <img
                                                 :src="mannschaft.flagge || 'assets/img/logos/default.png'"
                                                 :alt="mannschaft.name"
-                                                class="me-2"
-                                                style="max-height: 20px; max-width: 25px;"
+                                                class="flagge-logo flagge-logo-statistik me-2"
                                                 @error="handleImageError"
                                             >
                                             <div>
@@ -127,6 +127,7 @@ const GlobaleStatistikKomponente = {
                                         <th>Spieler</th>
                                         <th>Mannschaft</th>
                                         <th>Tore</th>
+                                        <th v-if="filter.spielTyp === 'elfmeterschiessen'">Elfmeter</th>
                                         <th>Gegner</th>
                                         <th>Ergebnis</th>
                                     </tr>
@@ -135,13 +136,19 @@ const GlobaleStatistikKomponente = {
                                     <tr v-for="spiel in gefilterteSpiele" :key="spiel.datum">
                                         <td>{{ formatiereDatum(spiel.datum) }}</td>
                                         <td>
-                                            <span class="badge" :class="spiel.spielTyp === 'wm' ? 'bg-primary' : 'bg-secondary'">
-                                                {{ spiel.spielTyp === 'wm' ? 'WM' : 'Freundschaft' }}
+                                            <span class="badge" :class="getSpielTypBadgeClass(spiel.spielTyp)">
+                                                {{ getSpielTypText(spiel.spielTyp) }}
                                             </span>
                                         </td>
                                         <td>{{ spiel.spielerName }}</td>
                                         <td>{{ spiel.mannschaft }}</td>
                                         <td>{{ spiel.tore }}</td>
+                                        <td v-if="filter.spielTyp === 'elfmeterschiessen'">
+                                            <span v-if="spiel.elfmeterTore !== undefined">
+                                                {{ spiel.elfmeterTore }}/{{ spiel.elfmeterSchuesse }}
+                                            </span>
+                                            <span v-else>-</span>
+                                        </td>
                                         <td>{{ spiel.gegner }}</td>
                                         <td>
                                             <span v-if="spiel.gewonnen" class="text-success">🏆 Gewonnen</span>
@@ -155,11 +162,11 @@ const GlobaleStatistikKomponente = {
                     </div>
                 </div>
 
-                <!-- Reset Button -->
-                <div class="mt-4">
-                    <button class="btn btn-outline-danger" @click="statistikenZuruecksetzen">
-                        <span class="material-symbols-outlined me-2">delete_forever</span>
-                        Alle Statistiken löschen
+                <!-- Zurück Button -->
+                <div class="d-grid mt-4">
+                    <button type="button" class="btn btn-outline-dark" @click="$router.push('/')">
+                        <span class="material-symbols-outlined me-2">arrow_back</span>
+                        Zurück
                     </button>
                 </div>
             </div>
@@ -272,17 +279,12 @@ const GlobaleStatistikKomponente = {
                 mannschaftLand: spiel[`team${spiel.team1.name === spielerName ? '1' : '2'}`].mannschaftLand,
                 mannschaftFlagge: spiel[`team${spiel.team1.name === spielerName ? '1' : '2'}`].mannschaftFlagge,
                 tore,
+                elfmeterTore: spiel[`team${spiel.team1.name === spielerName ? '1' : '2'}`].elfmeterTore || 0,
+                elfmeterSchuesse: spiel[`team${spiel.team1.name === spielerName ? '1' : '2'}`].elfmeterSchuesse || 0,
                 gegner: gegner.name,
                 gewonnen: tore > gegner.tore,
                 verloren: tore < gegner.tore
             });
-        },
-        statistikenZuruecksetzen() {
-            if (confirm('Möchtest Du wirklich alle Statistiken löschen? Diese Aktion kann nicht rückgängig gemacht werden.')) {
-                localStorage.removeItem('spielStatistiken');
-                this.spielerStatistiken = [];
-                this.detaillierteSpiele = [];
-            }
         },
         handleImageError(event) {
             // Fallback für fehlende Bilder
@@ -296,6 +298,28 @@ const GlobaleStatistikKomponente = {
             } else {
                 // Verwende Fallback-Bild
                 event.target.src = 'assets/img/logos/default.png';
+            }
+        },
+        getSpielTypText(spielTyp) {
+            switch (spielTyp) {
+                case 'wm':
+                    return 'WM';
+                case 'elfmeterschiessen':
+                    return 'Elfmeterschießen';
+                case 'freundschaftsspiel':
+                default:
+                    return 'Freundschaft';
+            }
+        },
+        getSpielTypBadgeClass(spielTyp) {
+            switch (spielTyp) {
+                case 'wm':
+                    return 'bg-primary';
+                case 'elfmeterschiessen':
+                    return 'bg-warning';
+                case 'freundschaftsspiel':
+                default:
+                    return 'bg-secondary';
             }
         }
     },

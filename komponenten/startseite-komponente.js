@@ -4,7 +4,7 @@ const StartseiteKomponente = {
         <div class="portrait-only">
             <div class="text-center mb-4">
                 <h1 class="display-4 text-tipp-kick mb-3">
-                    <span class="material-symbols-outlined me-2">sports_soccer</span>
+                    <img src="assets/img/logos/default.png" alt="Tipp-Kick-Helfer Logo" height="48" class="me-2">
                     Tipp-Kick-Helfer
                 </h1>
                 <p class="lead">Dein digitaler Helfer für das Tischfußball-Spiel</p>
@@ -31,6 +31,30 @@ const StartseiteKomponente = {
                                 WM
                             </h3>
                             <p class="card-text">Spiele mit Nationalmannschaften</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="card card-game card-game-spiel h-100" @click="starteElfmeterschiessen">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">
+                                <span class="material-symbols-outlined me-2">sports_soccer</span>
+                                Elfmeterschießen
+                            </h3>
+                            <p class="card-text">Spiele nur Elfmeterschießen</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="card card-game card-game-spiel h-100" @click="starteTraining">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">
+                                <span class="material-symbols-outlined me-2">fitness_center</span>
+                                Training
+                            </h3>
+                            <p class="card-text">Übe das Schießen von verschiedenen Positionen</p>
                         </div>
                     </div>
                 </div>
@@ -82,6 +106,16 @@ const StartseiteKomponente = {
         starteWM() {
             // Speichere Spieltyp im localStorage
             localStorage.setItem('spielTyp', 'wm');
+            this.$router.push('/spiel-einstellungen');
+        },
+        starteElfmeterschiessen() {
+            // Speichere Spieltyp im localStorage
+            localStorage.setItem('spielTyp', 'elfmeterschiessen');
+            this.$router.push('/spiel-einstellungen');
+        },
+        starteTraining() {
+            // Speichere Spieltyp im localStorage
+            localStorage.setItem('spielTyp', 'training');
             this.$router.push('/spiel-einstellungen');
         },
         zeigeStatistik() {
