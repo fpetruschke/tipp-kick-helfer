@@ -106,8 +106,8 @@ const SpieleinstellungenKomponente = {
                     </div>
                 </div>
 
-                <!-- Ballfarben -->
-                <div class="card mb-4">
+                <!-- Ballfarben - nur für relevante Spielmodi -->
+                <div v-if="!istZeitloserSpielmodus" class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">
                             <span class="material-symbols-outlined me-2">sports_soccer</span>
@@ -818,6 +818,27 @@ const SpieleinstellungenKomponente = {
 
         // Initialisiere Ballfarben-Validierung
         this.validiereBallFarben();
+
+        // Aktiviere "Vereine"-Tab für Freundschaftsspiel-Modus
+        if (spielTyp === 'freundschaftsspiel') {
+            this.$nextTick(() => {
+                // Entferne active Klasse vom Nationalmannschaften-Tab
+                const nationalTab = document.getElementById('national-tab');
+                const nationalPane = document.getElementById('national');
+                if (nationalTab && nationalPane) {
+                    nationalTab.classList.remove('active');
+                    nationalPane.classList.remove('show', 'active');
+                }
+
+                // Aktiviere Vereine-Tab
+                const vereineTab = document.getElementById('vereine-tab');
+                const vereinePane = document.getElementById('vereine');
+                if (vereineTab && vereinePane) {
+                    vereineTab.classList.add('active');
+                    vereinePane.classList.add('show', 'active');
+                }
+            });
+        }
     }
 };
 

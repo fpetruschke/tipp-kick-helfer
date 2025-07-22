@@ -20,8 +20,23 @@ const TrainingKomponente = {
 
                 <!-- Aktueller Spieler -->
                 <div class="mb-4">
-                    <h4>Aktueller Spieler: {{ aktuellerSpieler.name }}</h4>
-                    <small class="text-muted">{{ aktuellerSpieler.mannschaft }}</small>
+                    <div class="card border-primary">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <img
+                                    v-if="aktuellerSpieler.mannschaftFlagge"
+                                    :src="aktuellerSpieler.mannschaftFlagge"
+                                    :alt="aktuellerSpieler.mannschaft"
+                                    class="flagge-logo flagge-logo-spiel-gross mb-2"
+                                    @error="handleImageError"
+                                >
+                                <h4 class="text-primary">{{ aktuellerSpieler.name }}</h4>
+                                <small class="text-muted">{{ aktuellerSpieler.mannschaft }}</small>
+                            </div>
+                            <h5 class="text-primary">DEIN SCHUSS!</h5>
+                            <p class="text-muted">Gib das Ergebnis deines Schusses ein:</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Fußballfeld -->
@@ -55,7 +70,6 @@ const TrainingKomponente = {
                         <div 
                             class="player-position"
                             :style="spielerPositionStyle"
-                            @click="schussAbgegebenHandler"
                         >
                             <span class="material-symbols-outlined">person</span>
                         </div>
@@ -76,7 +90,6 @@ const TrainingKomponente = {
                             <button 
                                 class="btn btn-success btn-lg w-100 mb-2"
                                 @click="schussErgebnis(true)"
-                                :disabled="schussAbgegeben"
                             >
                                 <span class="material-symbols-outlined">sports_soccer</span>
                                 Tor!
@@ -86,7 +99,6 @@ const TrainingKomponente = {
                             <button 
                                 class="btn btn-danger btn-lg w-100 mb-2"
                                 @click="schussErgebnis(false)"
-                                :disabled="schussAbgegeben"
                             >
                                 <span class="material-symbols-outlined">close</span>
                                 Daneben
@@ -95,21 +107,21 @@ const TrainingKomponente = {
                     </div>
                 </div>
 
-                <!-- Statistik -->
+                <!-- Statistik für aktuellen Spieler -->
                 <div class="row mb-4">
                     <div class="col-6">
                         <div class="card">
                             <div class="card-body text-center">
-                                <h5 class="card-title">Tore</h5>
-                                <div class="display-6 text-success">{{ tore }}</div>
+                                <h5 class="card-title">Tore ({{ aktuellerSpieler.name }})</h5>
+                                <div class="display-6 text-success">{{ toreProSpieler[aktuellerSpielerIndex] || 0 }}</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="card">
                             <div class="card-body text-center">
-                                <h5 class="card-title">Quote</h5>
-                                <div class="display-6 text-tipp-kick">{{ torQuote }}%</div>
+                                <h5 class="card-title">Quote ({{ aktuellerSpieler.name }})</h5>
+                                <div class="display-6 text-tipp-kick">{{ torQuoteProSpieler[aktuellerSpielerIndex] || 0 }}%</div>
                             </div>
                         </div>
                     </div>
@@ -153,20 +165,58 @@ const TrainingKomponente = {
                     <p class="lead">Deine Ergebnisse:</p>
                 </div>
 
+                <!-- Gesamtstatistik -->
                 <div class="row mb-4">
                     <div class="col-6">
                         <div class="card">
                             <div class="card-body text-center">
-                                <h5 class="card-title">Tore</h5>
-                                <div class="display-6 text-success">{{ tore }}</div>
+                                <h5 class="card-title">Gesamt Tore</h5>
+                                <div class="display-6 text-success">{{ gesamtTore }}</div>
                             </div>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="card">
                             <div class="card-body text-center">
-                                <h5 class="card-title">Quote</h5>
-                                <div class="display-6 text-tipp-kick">{{ torQuote }}%</div>
+                                <h5 class="card-title">Gesamt Quote</h5>
+                                <div class="display-6 text-tipp-kick">{{ gesamtTorQuote }}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spieler-spezifische Statistiken -->
+                <div v-if="spielEinstellungen.spieler.length > 1" class="mb-4">
+                    <h4 class="text-tipp-kick mb-3">Ergebnisse pro Spieler:</h4>
+                    <div class="row">
+                        <div v-for="(spieler, index) in spielEinstellungen.spieler" :key="index" class="col-12 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img
+                                            v-if="spieler.mannschaftFlagge"
+                                            :src="spieler.mannschaftFlagge"
+                                            :alt="spieler.mannschaft"
+                                            class="flagge-logo flagge-logo-klein me-2"
+                                            @error="handleImageError"
+                                        >
+                                        <h5 class="card-title mb-0">{{ spieler.name }}</h5>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <small class="text-muted">Tore</small>
+                                                <div class="h4 text-success mb-0">{{ toreProSpieler[index] || 0 }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <small class="text-muted">Quote</small>
+                                                <div class="h4 text-tipp-kick mb-0">{{ torQuoteProSpieler[index] || 0 }}%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -211,7 +261,8 @@ const TrainingKomponente = {
             aktuellerSpielerIndex: 0,
             aktuelleRunde: 1,
             aktuellerSchuss: 1,
-            tore: 0,
+            toreProSpieler: {}, // Tore pro Spieler speichern
+            schuesseProSpieler: {}, // Schüsse pro Spieler speichern
             schussAbgegeben: false,
             ballBewegtSich: false,
             spielerPosition: { x: 0, y: 0 },
@@ -232,9 +283,29 @@ const TrainingKomponente = {
             if (!this.spielEinstellungen) return { name: '', mannschaft: '' };
             return this.spielEinstellungen.spieler[this.aktuellerSpielerIndex];
         },
-        torQuote() {
+        torQuoteProSpieler() {
+            const quotes = {};
+            if (!this.spielEinstellungen) return quotes;
+
+            this.spielEinstellungen.spieler.forEach((spieler, index) => {
+                const schuesse = this.schuesseProSpieler[index] || 0;
+                const tore = this.toreProSpieler[index] || 0;
+
+                if (schuesse > 0) {
+                    quotes[index] = Math.round((tore / schuesse) * 100);
+                } else {
+                    quotes[index] = 0;
+                }
+            });
+
+            return quotes;
+        },
+        gesamtTore() {
+            return Object.values(this.toreProSpieler).reduce((sum, tore) => sum + tore, 0);
+        },
+        gesamtTorQuote() {
             if (this.aktuellerSchuss === 1) return 0;
-            return Math.round((this.tore / (this.aktuellerSchuss - 1)) * 100);
+            return Math.round((this.gesamtTore / (this.aktuellerSchuss - 1)) * 100);
         },
         spielerPositionStyle() {
             return {
@@ -266,6 +337,12 @@ const TrainingKomponente = {
                 return;
             }
 
+            // Initialisiere Tore und Schüsse pro Spieler
+            this.spielEinstellungen.spieler.forEach((spieler, index) => {
+                this.toreProSpieler[index] = 0;
+                this.schuesseProSpieler[index] = 0;
+            });
+
             // Initialisiere Sound
             if (window.SoundManagerHelper) {
                 window.SoundManagerHelper.init();
@@ -295,25 +372,39 @@ const TrainingKomponente = {
             this.schussAbgegeben = false;
             this.ballBewegtSich = false;
         },
-        schussAbgegebenHandler() {
-            if (this.schussAbgegeben) return;
-
-            this.schussAbgegeben = true;
-            this.ballBewegtSich = true;
-
-            // Spiele Schuss-Sound
-            if (window.SoundManagerHelper) {
-                window.SoundManagerHelper.playSound('schiedsrichter-pfeife.wav');
-            }
-        },
         schussErgebnis(istTor) {
-            if (!this.schussAbgegeben) return;
+            // Markiere Schuss als abgegeben, falls noch nicht geschehen
+            if (!this.schussAbgegeben) {
+                this.schussAbgegeben = true;
+                this.ballBewegtSich = true;
+
+                // Spiele Schuss-Sound
+                if (window.SoundManagerHelper) {
+                    window.SoundManagerHelper.play('schiedsrichterPfeife');
+                }
+            }
+
+                        // Erhöhe Schüsse für aktuellen Spieler
+            if (!this.schuesseProSpieler[this.aktuellerSpielerIndex]) {
+                this.schuesseProSpieler[this.aktuellerSpielerIndex] = 0;
+            }
+            this.schuesseProSpieler[this.aktuellerSpielerIndex]++;
 
             if (istTor) {
-                this.tore++;
+                // Erhöhe Tore für aktuellen Spieler
+                if (!this.toreProSpieler[this.aktuellerSpielerIndex]) {
+                    this.toreProSpieler[this.aktuellerSpielerIndex] = 0;
+                }
+                this.toreProSpieler[this.aktuellerSpielerIndex]++;
+                
                 // Spiele Tor-Sound
                 if (window.SoundManagerHelper) {
-                    window.SoundManagerHelper.playSound('torjubel.wav');
+                    window.SoundManagerHelper.play('torjubel');
+                }
+            } else {
+                // Spiele "Daneben"-Sound
+                if (window.SoundManagerHelper) {
+                    window.SoundManagerHelper.play('daneben');
                 }
             }
 
@@ -382,9 +473,13 @@ const TrainingKomponente = {
             this.$router.push('/spiel-einstellungen');
         },
         aendereHintergrundLautstaerke() {
-            // Der SoundManagerHelper hat keine direkte Lautstärke-Einstellung
-            // Das Hintergrundgeräusch wird über die init() Methode gesteuert
-            console.log('Hintergrundlautstärke:', this.hintergrundLautstaerke + '%');
+            // Setze die Lautstärke für Hintergrundatmosphäre
+            if (window.SoundManagerHelper) {
+                window.SoundManagerHelper.setVolume('stadionAtmosphaere', this.hintergrundLautstaerke);
+            }
+        },
+        handleImageError(event) {
+            event.target.src = 'assets/img/logos/default.png';
         }
     },
     mounted() {

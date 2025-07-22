@@ -25,6 +25,11 @@ const SoundManagerHelper = {
                 volume: 0.3,
                 loop: true,
                 onloaderror: () => this.handleSoundError('stadionAtmosphaere')
+            }),
+            daneben: new Howl({
+                src: ['assets/audio/daneben.mp3'],
+                volume: 0.5,
+                onloaderror: () => this.handleSoundError('daneben')
             })
         };
 
@@ -42,6 +47,10 @@ const SoundManagerHelper = {
                 src: ['assets/audio/stadion-atmosphaere.mp3'],
                 volume: 0.3,
                 loop: true
+            }),
+            daneben: new Howl({
+                src: ['assets/audio/daneben.mp3'],
+                volume: 0.5
             })
         };
 
@@ -59,14 +68,38 @@ const SoundManagerHelper = {
     play(soundName) {
         try {
             if (this.sounds[soundName] && this.sounds[soundName].state() === 'loaded') {
+                // Für Hintergrundatmosphäre: Random Start-Position
+                if (soundName === 'stadionAtmosphaere') {
+                    const randomPosition = Math.random() * 100; // 0-100%
+                    this.sounds[soundName].seek(randomPosition);
+                }
                 this.sounds[soundName].play();
             } else if (this.fallbacks[soundName]) {
+                // Für Hintergrundatmosphäre: Random Start-Position
+                if (soundName === 'stadionAtmosphaere') {
+                    const randomPosition = Math.random() * 100; // 0-100%
+                    this.fallbacks[soundName].seek(randomPosition);
+                }
                 this.fallbacks[soundName].play();
             } else {
                 console.warn(`Kein Sound verfügbar für: ${soundName}`);
             }
         } catch (error) {
             console.error(`Fehler beim Abspielen von ${soundName}:`, error);
+        }
+    },
+
+    // Setze Lautstärke für Hintergrundatmosphäre
+    setVolume(soundName, volume) {
+        try {
+            if (this.sounds[soundName]) {
+                this.sounds[soundName].volume(volume / 100);
+            }
+            if (this.fallbacks[soundName]) {
+                this.fallbacks[soundName].volume(volume / 100);
+            }
+        } catch (error) {
+            console.error(`Fehler beim Setzen der Lautstärke für ${soundName}:`, error);
         }
     },
 

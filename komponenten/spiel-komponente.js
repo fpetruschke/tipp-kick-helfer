@@ -29,7 +29,7 @@ const SpielKomponente = {
                                     :class="getBallColorClass('team1')"
                                     :style="getBallColorStyle('team1')"
                                 >
-                                    {{ getBallColorText('team1') }}
+                                    &nbsp;
                                 </span>
                             </div>
                             <div class="display-4 mb-3">{{ aktuellesSpiel.tore.team1 }}</div>
@@ -60,7 +60,7 @@ const SpielKomponente = {
                                     :class="getBallColorClass('team2')"
                                     :style="getBallColorStyle('team2')"
                                 >
-                                    {{ getBallColorText('team2') }}
+                                    &nbsp;
                                 </span>
                             </div>
                             <div class="display-4 mb-3">{{ aktuellesSpiel.tore.team2 }}</div>
@@ -191,7 +191,7 @@ const SpielKomponente = {
                                                 :class="getBallColorClass('team1')"
                                                 :style="getBallColorStyle('team1')"
                                             >
-                                                {{ getBallColorText('team1') }}
+                                                &nbsp;
                                             </span>
                                         </div>
                                         <div class="text-tipp-kick">
@@ -217,7 +217,7 @@ const SpielKomponente = {
                                                 :class="getBallColorClass('team2')"
                                                 :style="getBallColorStyle('team2')"
                                             >
-                                                {{ getBallColorText('team2') }}
+                                                &nbsp;
                                             </span>
                                         </div>
                                         <div class="text-tipp-kick">
@@ -267,7 +267,7 @@ const SpielKomponente = {
                                                 :class="getBallColorClass('team1')"
                                                 :style="getBallColorStyle('team1')"
                                             >
-                                                {{ getBallColorText('team1') }}
+                                                &nbsp;
                                             </span>
                                         </div>
                                         <div class="text-tipp-kick mb-3">
@@ -304,7 +304,7 @@ const SpielKomponente = {
                                                 :class="getBallColorClass('team2')"
                                                 :style="getBallColorStyle('team2')"
                                             >
-                                                {{ getBallColorText('team2') }}
+                                                &nbsp;
                                             </span>
                                         </div>
                                         <div class="text-tipp-kick mb-3">
@@ -418,7 +418,7 @@ const SpielKomponente = {
                                                     :class="getBallColorClass('team1')"
                                                     :style="getBallColorStyle('team1')"
                                                 >
-                                                    {{ getBallColorText('team1') }}
+                                                    &nbsp;
                                                 </span>
                                             </div>
                                             <h5 class="text-primary">IST DRAN!</h5>
@@ -446,7 +446,7 @@ const SpielKomponente = {
                                                     :class="getBallColorClass('team2')"
                                                     :style="getBallColorStyle('team2')"
                                                 >
-                                                    {{ getBallColorText('team2') }}
+                                                    &nbsp;
                                                 </span>
                                             </div>
                                             <h5 class="text-primary">IST DRAN!</h5>
@@ -893,6 +893,12 @@ const SpielKomponente = {
             return {};
         },
         getBallColorText(team) {
+            // Für WM und Freundschaftsspiel nur Farben ohne Text anzeigen
+            const spielTyp = localStorage.getItem('spielTyp');
+            if (spielTyp === 'wm' || spielTyp === 'freundschaftsspiel') {
+                return '&nbsp;';
+            }
+            
             if (this.ballFarbenTyp[team] === 'custom') {
                 return 'Custom';
             }
