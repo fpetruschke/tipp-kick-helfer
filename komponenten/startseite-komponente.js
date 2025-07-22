@@ -94,6 +94,18 @@ const StartseiteKomponente = {
                         </div>
                     </div>
                 </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="card card-game h-100" @click="zeigeReadme">
+                        <div class="card-body text-center">
+                            <h3 class="card-title">
+                                <span class="material-symbols-outlined me-2">info</span>
+                                Über das Projekt
+                            </h3>
+                            <p class="card-text">Informationen über TippKick Helfer</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     `,
@@ -126,6 +138,9 @@ const StartseiteKomponente = {
         },
         zeigeEinstellungen() {
             this.$router.push('/einstellungen');
+        },
+        zeigeReadme() {
+            this.$router.push('/readme');
         }
     }
 };

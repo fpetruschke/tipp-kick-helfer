@@ -89,6 +89,7 @@
     <script src="komponenten/training-komponente.js"></script>
     <script src="komponenten/statistik-komponente.js"></script>
     <script src="komponenten/regeln-komponente.js"></script>
+    <script src="komponenten/readme-komponente.js"></script>
 
     <script>
         // Vue App
@@ -104,6 +105,7 @@
         const Training = window.TrainingKomponente;
         const GlobaleStatistik = window.GlobaleStatistikKomponente;
         const Regeln = window.RegelnKomponente;
+        const Readme = window.ReadmeKomponente;
         const SoundManager = window.SoundManagerHelper;
 
         // Router-Konfiguration
@@ -115,7 +117,8 @@
             { path: '/elfmeterschiessen', component: Elfmeterschiessen },
             { path: '/training', component: Training },
             { path: '/statistik', component: GlobaleStatistik },
-            { path: '/regeln', component: Regeln }
+            { path: '/regeln', component: Regeln },
+            { path: '/readme', component: Readme }
         ];
 
         const router = createRouter({

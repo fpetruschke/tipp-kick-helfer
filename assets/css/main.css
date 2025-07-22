@@ -504,3 +504,75 @@ body {
         max-width: 22px;
     }
 }
+
+/* README-Komponente Styles */
+.readme-content {
+    line-height: 1.6;
+}
+
+.readme-content h1,
+.readme-content h2,
+.readme-content h3 {
+    color: var(--tipp-kick-green);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.readme-content h1:first-child,
+.readme-content h2:first-child,
+.readme-content h3:first-child {
+    margin-top: 0;
+}
+
+.readme-content p {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.readme-content ul {
+    margin-bottom: 1rem;
+}
+
+.readme-content li {
+    margin-bottom: 0.5rem;
+}
+
+.readme-content a {
+    color: var(--tipp-kick-green);
+    text-decoration: none;
+}
+
+.readme-content a:hover {
+    text-decoration: underline;
+}
+
+.readme-content code {
+    background-color: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+}
+
+.readme-content pre {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+}
+
+.readme-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+.readme-content strong {
+    font-weight: 600;
+}
+
+.readme-content em {
+    font-style: italic;
+}
